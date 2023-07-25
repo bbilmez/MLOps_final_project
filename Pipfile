@@ -11,6 +11,10 @@ ipykernel = "*"
 matplotlib = "*"
 seaborn = "*"
 scipy = "*"
+xgboost = "*"
+mlflow = "*"
+prefect = "*"
+hyperopt = "*"
 
 [dev-packages]
 
