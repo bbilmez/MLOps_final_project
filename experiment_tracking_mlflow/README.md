@@ -25,3 +25,14 @@ heart_disease_experiment in MLFlow dashboard.
 
 trained model without parameter optimization:
 ![trained model with parameter optimization](../images/trained_xgb_optimized.png)
+
+
+<u>register_model.py<u>
+
+This python file trains and logs the best model giving highest validation and test accuracy. Register this model to MLflow.
+
+Experiment run for finding the best model:
+![Experiment run for finding the best model](../images/heart_disease_experiment.png)
+
+Registered model on MLflow:
+![Registered model on MLflow](../images/registered_model.png)
