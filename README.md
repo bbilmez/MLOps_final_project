@@ -6,7 +6,7 @@
 
 Clone the project from the repository
 ```
-git clone GIT_REPO
+git clone https://github.com/bbilmez/MLOps_final_project.git
 ```
 
 Change to MLOPS_FINAL_PROJECT directory
