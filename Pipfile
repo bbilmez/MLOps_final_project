@@ -15,6 +15,7 @@ xgboost = "*"
 mlflow = "*"
 prefect = "*"
 hyperopt = "*"
+datetime = "*"
 
 [dev-packages]
 

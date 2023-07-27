@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1690462700491
+current_stage: Staging
+description: '[2023-07-27 14:58:20.506466] The model version 1 from experiment ''heart-disease-hyperopt''
+  was transitioned to Staging.'
+last_updated_timestamp: 1690462700508
+name: heart_disease_xgb_model-7fcc763f5182426c8d4507a6979071a7
+run_id: 7fcc763f5182426c8d4507a6979071a7
+run_link: ''
+source: mlflow-artifacts:/834505274527820376/7fcc763f5182426c8d4507a6979071a7/artifacts/model
+status: READY
+status_message: null
+user_id: null
+version: 1
