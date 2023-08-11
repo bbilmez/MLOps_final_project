@@ -86,7 +86,7 @@ This python file logs the best model giving highest validation and test accuracy
 # Create scheduled deployments #
 
 ```
-prefect deployment.py
+python deployment.py
 ```
 
 ![Prefect deployments](images/prefect_deployments.png)
