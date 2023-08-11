@@ -11,6 +11,7 @@ from prefect.context import get_run_context
 from optuna.samplers import TPESampler
 import xgboost as xgb
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from datetime import datetime
 
 @task
 def load_pickle(filename):
@@ -112,7 +113,7 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", help="Mlflow tracking uri.")
-    parser.add_argument("--experiment_name", default="heart_disease-experiment", help="mlflow tracking experiment name.")
+    parser.add_argument("--experiment_name", default=f"heart-disease-experiment", help="mlflow tracking experiment name.")
     parser.add_argument("--num_trials", default=10, help="The number of parameter evaluations for the optimizer to explore")
     parser.add_argument("--data_path", default="./Output", help="Location where the heart disease data was saved")
     args = parser.parse_args()

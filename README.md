@@ -6,7 +6,7 @@
 
 Clone the project from the repository
 ```
-git clone https://github.com/bbilmez/MLOps_final_project.git
+git clone https://github.com/bbilmez/MLOpssoomcamp_capstone.git
 ```
 
 Change to MLOPS_FINAL_PROJECT directory
@@ -74,7 +74,7 @@ This python file starts another MLflow experiment (heart-disease-hyperopt), sear
 
 
 ```
-python register_model.py --tracking_uri="http://127.0.0.1:5000" --experiment_name="heart-disease-hyperopt" --top_n=1
+python register_model.py --tracking_uri="http://127.0.0.1:5000" --top_n=1
 ```
 
 This python file logs the best model giving highest validation and test accuracy. Register this model to MLflow.
@@ -82,3 +82,22 @@ This python file logs the best model giving highest validation and test accuracy
 ![Registered model on MLflow](./images/registered_model.png)
 
 ![Model registration flow on Prefect](images/prefect_register_model.png)
+
+# Create scheduled deployments #
+
+```
+prefect deployment.py
+```
+
+![Prefect deployments](images/prefect_deployments.png)
+
+Run deployments locally
+
+```
+prefect deployment run run-optimization/deploy-mlflow-training
+prefect deployment run register-best-model/deploy-mlflow-staging
+```
+![Prefect deployment run](images/prefect_deployment_run.png)
+
+## Deploying a model as web-service with docker ##
+

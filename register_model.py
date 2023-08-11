@@ -25,7 +25,8 @@ def run_register_model(tracking_uri: str, experiment_name: str, top_n: int):
     logger.info("Getting best model from current experiment")
     client = MlflowClient()
     experiment = client.get_experiment_by_name(experiment_name)
-
+    print(experiment_name)
+    
     best_run = client.search_runs(
         experiment_ids=experiment.experiment_id,
         run_view_type=ViewType.ACTIVE_ONLY,
@@ -36,6 +37,7 @@ def run_register_model(tracking_uri: str, experiment_name: str, top_n: int):
     # Register the best model
     logger.info("Registering and staging best model")
     run_id = best_run.info.run_id
+    print(run_id)
     model_uri = f"runs:/{run_id}/model"
     registered_model = mlflow.register_model(
         model_uri=model_uri,
@@ -57,17 +59,19 @@ def run_register_model(tracking_uri: str, experiment_name: str, top_n: int):
     )
 
 
-@flow(name="Register the best model")
+@flow(name="register-best-model")
 def main(tracking_uri, experiment_name, top_n):
     run_register_model(tracking_uri=tracking_uri, experiment_name=experiment_name, top_n=top_n)
 
 
 if __name__ == '__main__':
 
+    date_str = datetime.today().strftime("%Y-%m-%d")
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", help="Mlflow tracking uri.")
-    parser.add_argument("--experiment_name", default="heart-disease-hyperopt", help="mlflow tracking experiment name.")
-    parser.add_argument("--top_n", default=1, help="Number of top models that need to be evaluated to decide which one to promote")
+    parser.add_argument("--experiment_name", default=f"heart-disease-hyperopt_{date_str}", help="mlflow tracking experiment name.")
+    parser.add_argument("--top_n", default=1, type=int, help="Number of top models that need to be evaluated to decide which one to promote")
     args = parser.parse_args()
 
     parameters = {
@@ -75,4 +79,5 @@ if __name__ == '__main__':
         "experiment_name": args.experiment_name,
         "top_n": args.top_n
     }
+    
     main(**parameters)

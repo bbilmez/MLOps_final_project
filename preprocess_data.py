@@ -53,7 +53,9 @@ def main(raw_data_path: str, dest_path: str):
     # Fit the DictVectorizer and preprocess data
     logger.info("Vectorizing the dataframe")
     dv = DictVectorizer()
+    print(df_train)
     X_train, dv = preprocess(df_train, dv, fit_dv=True)
+    print(X_train)
     X_test, _ = preprocess(df_test, dv, fit_dv=False)
 
     # Create dest_path folder unless it already exists
