@@ -1,0 +1,1 @@
+{'max_depth': 7, 'learning_rate': 0.05, 'n_estimators': 77, 'min_child_weight': 7, 'gamma': 0.5, 'subsample': 0.5, 'colsample_bytree': 0.5, 'reg_alpha': 0.05, 'reg_lambda': 1e-07, 'eval_metric': 'logloss', 'tree_method': 'approx'}
