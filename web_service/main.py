@@ -1,12 +1,16 @@
+import json
 import os
+from urllib.parse import parse_qs
+
 import mlflow
 import pandas as pd
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request, render_template, session
-import json
-# from get_profile import get_profile
+from flask import Flask, jsonify, render_template, request, session
 
 from disease_prediction.predict import load_model, make_prediction
+
+# from get_profile import get_profile
+
 
 load_dotenv()
 
@@ -19,7 +23,6 @@ EXPERIMENT_ID = os.getenv("EXPERIMENT_ID")
 model, dv = load_model(run_id=RUN_ID, experiment_id=EXPERIMENT_ID)
 
 app = Flask("heart-disease-prediction")
-app.secret_key = "your-secret-key"
 
 
 @app.route("/predict", methods=["GET", "POST"])
@@ -27,17 +30,19 @@ def predict_endpoint():
     """Get the data from users"""
     return render_template("predict.html")
 
-@app.route("/result", methods = ['POST', 'GET'])
+
+@app.route("/result", methods=["POST", "GET"])
 def result_endpoint():
     """Predict the presence of heart disease heart_disease_xgb_model."""
-    if request.method == 'POST':
-    
+    if request.method == "POST":
+
         user_data = request.form.to_dict()
-        prediction_result = make_prediction(model, dv, user_data)  # Call your prediction function again
+        prediction_result = make_prediction(
+            model, dv, user_data
+        )  # Call your prediction function again
         result_label = "No Heart Disease" if prediction_result == 0 else "Heart Disease"
 
         return f"{result_label}"
-
 
 
 if __name__ == "__main__":

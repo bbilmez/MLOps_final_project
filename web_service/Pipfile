@@ -9,13 +9,13 @@ pandas = "*"
 numpy = "*"
 scikit-learn = "*"
 xgboost = "*"
-mlflow = "*"
 prefect = "*"
 gunicorn = "*"
 flask = "*"
 python-dotenv = "*"
 pymongo = "*"
 get-profile = "*"
+mlflow = "*"
 
 [dev-packages]
 

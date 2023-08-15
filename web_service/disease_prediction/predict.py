@@ -1,3 +1,4 @@
+import pickle
 from typing import Union
 
 import mlflow
@@ -9,14 +10,14 @@ from disease_prediction.utils import prepare_features
 def load_model(experiment_id, run_id):
     """Get the model."""
 
-    # mlflow.set_tracking_uri("http://127.0.0.1:5000")
-    # client = mlflow.tracking.MlflowClient()
+    client = mlflow.tracking.MlflowClient()
 
     source = f"mlflow-artifacts:/{experiment_id}/{run_id}/artifacts/model"
     model = mlflow.pyfunc.load_model(source)
-    dv_uri = f"mlflow-artifacts:/{experiment_id}/{run_id}/artifacts/dict_vectorizer"
-    # dv = f"./mlruns/{experiment_id}/{run_id}/artifacts/dict_vectorizer/dv.pkl"
-    dv = mlflow.pyfunc.load_model(dv_uri)
+    dv_local_path = client.download_artifacts(run_id, "dict_vectorizer/dv.pkl", "./")
+
+    with open(dv_local_path, "rb") as f_in:
+        dv = pickle.load(f_in)
 
     return model, dv
 

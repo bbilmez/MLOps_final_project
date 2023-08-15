@@ -1,8 +1,9 @@
+import pickle
 from typing import Union
 
 import mlflow
 import pandas as pd
-import pickle
+
 from disease_prediction.utils import prepare_features
 
 

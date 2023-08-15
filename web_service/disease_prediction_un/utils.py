@@ -1,11 +1,18 @@
 from typing import Union
+
 import pandas as pd
+
+# from haversine import Unit, haversine
 
 
 def prepare_features(input_data: Union[list[dict], pd.DataFrame], dv):
 
-    X = dv.transform(input_data)
+    df = pd.DataFrame(input_data)
+    dicts = df.to_dict(orient="records")
+    X = dv.transform(dicts)
+
     return X
+
 
 if __name__ == "__main__":
     user_data = {
@@ -24,3 +31,4 @@ if __name__ == "__main__":
 
     input_data = [user_data]
     X = prepare_features(input_data)
+    print(X)
