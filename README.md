@@ -89,7 +89,7 @@ This python file logs the best model giving highest validation and test accuracy
 python deployment.py
 ```
 
-![Prefect deployments](images/prefect_deployments.png)
+![Prefect deployments](./images/prefect_deployments.png)
 
 Run deployments locally
 
