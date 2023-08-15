@@ -1,0 +1,66 @@
+<html>
+<body>
+    <h3>Heart Disease Prediction Service</h3>
+ 
+<div>
+  <form action = "http://127.0.0.1:9696/result" method = "POST">
+    <label for="age">Age</label>
+    <input type="text" id="age" name="age">
+    <br>
+    <label for="Sex">Sex</label>
+    <select id="Sex" name="Sex">
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+    </select>
+    <br>ChestPainType
+    <label for="ChestPainType">Chest Pain Type</label>
+    <select id="ChestPainType" name="ChestPainType">  
+      <option value="TA">Typical Angina</option>
+      <option value="ATA">Atypical Angina</option>
+      <option value="NAP">Non-Anginal Pain</option>
+      <option value="ASY">Asymptomatic</option>
+    </select>
+    <br>
+    <label for="RestingBP">Resting blood pressure</label>
+    <input type="text" id="RestingBP" name="RestingBP">
+    <br>
+    <label for="Cholesterol">Cholesterol</label>
+    <input type="text" id="Cholesterol" name="Cholesterol">
+    <br>
+    <label for="FastingBS">Fasting blood sugar</label>
+    <select id="FastingBS" name="FastingBS">
+      <option value="0">less than or equal to 120 mg/dl</option>
+      <option value="1">higher than 120 mg/dl</option>
+    </select>
+    <br>
+    <label for="RestingECG">Resting ECG</label>
+    <select id="RestingECG" name="RestingECG"> 
+      <option value="Normal">Normal</option>
+      <option value="ST">ST</option>
+      <option value="LVH">LVH</option>
+    </select>
+    <br>
+    <label for="MaxHR">Maximum heart rate </label>
+    <input type="text" id="MaxHR" name="MaxHR">btw:[60-220]
+    <br>
+    <label for="ExerciseAngina">Exercise Angina </label>
+    <select id="ExerciseAngina" name="ExerciseAngina">
+      <option value="Y">Yes</option>
+      <option value="N">No</option>
+    </select>
+    <br>
+    <label for="Oldpeak">Old peak </label>
+    <input type="text" id="Oldpeak" name="Oldpeak">
+    <br>
+    <label for="ST_Slope">ST Slope </label>
+    <select id="ST_Slope" name="ST_Slope">
+      <option value="Up">Upsloping</option>
+      <option value="Flat">Flat</option>
+      <option value="Down">Downsloping</option>
+    </select>
+    <br>
+    <input type="submit" value="Submit">
+  </form>
+</div>
+</body>
+</html>
