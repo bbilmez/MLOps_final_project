@@ -16,6 +16,11 @@ mlflow = "*"
 prefect = "*"
 hyperopt = "*"
 datetime = "*"
+evidently = "*"
+python-dotenv = "*"
+postgres = "*"
+psycopg = "*"
+psycopg-binary = "*"
 
 [dev-packages]
 
