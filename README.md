@@ -105,7 +105,7 @@ prefect deployment run register-best-model/deploy-mlflow-staging
 Add .env file containing environemt variables: EXPERIMENT_ID and RUN_ID.
 
 ```
-cd web_service
+cd web_service/app
 python main.py
 ```
 main.py will reach spesified experiment/run and get the artifacts (model and dictionary vectorizer) from this experiment. On your browser, open <http://127.0.0.1:9696/predict>. Fill in the form and after submitting it, the app will direct you to the result page (<http://127.0.0.1:9696/result>) and you will see the prediction.
@@ -145,3 +145,24 @@ python test.py
 ```
 make build_webservice
 ```
+
+### Model monitoring ###
+
+There are 3 services for monitoring the model predictions is realtime:
+
+Evidently AI for calculating metrics including data drift, missing value and quartile metrics. 
+Adminer for collecting monitoring data. Prometheus UI: http://localhost:8080
+Grafana for Dashboards UI. Grafana UI: http://localhost:3000 (default user/pass: admin, admin)
+
+To run the script for calculate and report these metrics, follow below steps from project directory.
+```
+cd model_monitoring
+python evidently_metric_calculation.py
+```
+
+ This script calculates some evidently metrics and save them in as a Postgresql database. This database can be viewed on http://localhost:8080 and dashboards can be made on http://localhost:3000 using this database. The script also saves Evidently report in model_monitoring/reports folder. 
+
+![Dashboard on Grafana for our data monitoring](./images/dashboard_grafana.png)
+
+Sample report file: (model_monitoring/reports/data_report-2023-08-18_12-35.html)
+
