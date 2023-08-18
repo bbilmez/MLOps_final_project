@@ -157,6 +157,10 @@ Grafana for Dashboards UI. Grafana UI: http://localhost:3000 (default user/pass:
 To run the script for calculate and report these metrics, follow below steps from project directory.
 ```
 cd model_monitoring
+docker-compose up --build
+```
+and in another terminal tab:
+```
 python evidently_metric_calculation.py
 ```
 
