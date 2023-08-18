@@ -21,8 +21,12 @@ python-dotenv = "*"
 postgres = "*"
 psycopg = "*"
 psycopg-binary = "*"
+deepdiff = "*"
+requests = "*"
 
 [dev-packages]
+pytest = "*"
+deepdiff = "*"
 
 [requires]
 python_version = "3.9"
