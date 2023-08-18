@@ -154,7 +154,7 @@ Evidently AI for calculating metrics including data drift, missing value and qua
 Adminer for collecting monitoring data. Prometheus UI: http://localhost:8080
 Grafana for Dashboards UI. Grafana UI: http://localhost:3000 (default user/pass: admin, admin)
 
-To run the script for calculate and report these metrics, follow below steps from project directory.
+To run the script for calculate and report these metrics, add .env file containing environemt variables: EXPERIMENT_ID, RUN_ID and current data path. Then, follow below steps from project directory.
 ```
 cd model_monitoring
 docker-compose up --build
