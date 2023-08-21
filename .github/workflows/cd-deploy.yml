@@ -23,22 +23,12 @@ jobs:
         working-directory: ./web_service
       - name: Build docker image
         run: |
-          docker build -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} -f ./web_service/Dockerfile .
-          #-t ${{ env.MY_VARIABLE }}/heart_disease_xgb_model:v1 -f ./web_service/Dockerfile .
-          #${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
-           # --build-arg REGISTRY_URL=${{ env.REGISTRY_URL }} \
-            #--build-arg IMAGE_NAME=${{ env.IMAGE_NAME }} \
-            #--build-arg IMAGE_TAG=${{ env.IMAGE_TAG }} .
-            
+          docker build -t ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }} -f ./web_service/Dockerfile .       
       - name: Push Docker image
-        run: docker push bbilmez/heart_disease_xgb_model:v1 
-        # ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
-
+        run: docker push ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
       - name: Run Docker container
         run: |
-          docker run --env-file .env -d -it \
-            --rm -v ${{ github.workspace }}:/app \
-            -p 9696:9696 ${{ secrets.LOCAL_IMAGE_NAME }}
+          docker run -p 9696:9696 ${{ secrets.REGISTRY_URL }}/${{ secrets.IMAGE_NAME }}:${{ secrets.IMAGE_TAG }}
 
       - name: Wait for service to start
         run: sleep 10
