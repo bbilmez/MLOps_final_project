@@ -18,7 +18,8 @@ jobs:
           
       - name: Checkout repository
         uses: actions/checkout@v2
-        
+      - name: Set working directory
+        working-directory: ./web_service
       - name: Build docker image
         run: |
           docker build -t bbilmez/heart_disease_xgb_model:v1 .
