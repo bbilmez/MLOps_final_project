@@ -1,58 +1,33 @@
-name: CI tests
+name: CI/CD Workflow
 
 on:
   push:
     branches:
       - '*'
-      
-env:
-  IMAGE_NAME: ${{ vars.IMAGE_NAME }}
-  REGISTRY_URL: ${{ vars.REGISTRY_URL }}
-  PREFECT_API_SERVER: ${{ vars.PREFECT_API_SERVER }}
-  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
-  build:
+  build_webservice:
     runs-on: ubuntu-latest
-    steps:
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - uses: actions/checkout@v2
-      - name: echo image tag
-        run: echo ${{ github.sha }}
-      - name: Build docker image
-        run:  docker build -t $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG --build-arg FLOW_NAME=${{ secrets.FLOW_NAME }} --build-arg PREFECT_API_SERVER=$PREFECT_API_SERVER --build-arg IMAGE_NAME=$IMAGE_NAME --build-arg REGISTRY_URL=$REGISTRY_URL --build-arg IMAGE_TAG=$IMAGE_TAG --build-arg PROJECT_NAME=${{ secrets.PROJECT_NAME }} --build-arg MLFLOW_TRACKING_PASSWORD=${{ secrets.MLFLOW_TRACKING_PASSWORD }} --build-arg MLFLOW_TRACKING_USERNAME=${{ secrets.MLFLOW_TRACKING_USERNAME }} --build-arg MLFLOW_TRACKING_URI=${{ secrets.MLFLOW_TRACKING_URI }} .
-      - name: Push Docker image
-        run: docker push $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG
-         
-  # test:
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   steps:
-  #   - name: Login to Docker Hub
-  #     uses: docker/login-action@v2
-  #     with:
-  #       username: ${{ secrets.DOCKERHUB_USERNAME }}
-  #       password: ${{ secrets.DOCKERHUB_TOKEN }}
-  #   - name: run tests
-  #     run: |
-  #       docker pull $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG
-  #       docker run --rm -i -e PYTHONPATH=src $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG kedro test
 
-  deploy:
-    runs-on: ubuntu-latest
-    # needs: test
-    needs: build
     steps:
-    - name: Login to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: deploy flow
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: docker/setup-docker@v2
+
+    - name: Build Docker image
       run: |
-        docker pull $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG
-        docker run --rm -i -e PYTHONPATH=src $REGISTRY_URL/$IMAGE_NAME:$IMAGE_TAG ./deploy.sh
+        docker build -t ${{ secrets.LOCAL_IMAGE_NAME }} .
+        
+    - name: Run Docker container
+      run: |
+        docker run --env-file .env -d -it \
+          --rm -v ${{ github.workspace }}:/app \
+          -p 9696:9696 ${{ secrets.LOCAL_IMAGE_NAME }}
+
+    - name: Wait for service to start
+      run: sleep 10
+
+    - name: Run tests
+      run: python test.py
