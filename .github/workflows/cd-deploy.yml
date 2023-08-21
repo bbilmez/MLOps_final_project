@@ -21,7 +21,7 @@ jobs:
         
       - name: Build docker image
         run: |
-          docker build -t bbilmez/heart_disease_xgb_model:v1
+          docker build -t bbilmez/heart_disease_xgb_model:v1 .
           #${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
            # --build-arg REGISTRY_URL=${{ env.REGISTRY_URL }} \
             #--build-arg IMAGE_NAME=${{ env.IMAGE_NAME }} \
