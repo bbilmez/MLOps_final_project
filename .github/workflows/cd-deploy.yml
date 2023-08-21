@@ -30,7 +30,8 @@ jobs:
             #--build-arg IMAGE_TAG=${{ env.IMAGE_TAG }} .
             
       - name: Push Docker image
-        run: docker push ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        run: docker push bbilmez/heart_disease_xgb_model:v1 
+        # ${{ env.REGISTRY_URL }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
 
       - name: Run Docker container
         run: |
