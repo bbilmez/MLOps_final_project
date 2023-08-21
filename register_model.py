@@ -1,15 +1,9 @@
-
-import os
-import pickle
 import argparse
-import mlflow
-import ast
-import xgboost as xgb
 from datetime import datetime
+import mlflow
 from prefect import flow, task, get_run_logger
 from mlflow.entities import ViewType
 from mlflow.tracking import MlflowClient
-from sklearn.metrics import accuracy_score
 
 
 @task(name="Register the best model")
@@ -55,7 +49,8 @@ def run_register_model(tracking_uri: str, experiment_name: str, top_n: int):
     client.update_model_version(
         name=f"heart_disease_xgb_model-{run_id}",
         version=registered_model.version,
-        description=f"[{datetime.now()}] The model version {registered_model.version} from experiment '{experiment_name}' was transitioned to Staging.",
+        description=f"[{datetime.now()}] The model version {registered_model.version} " \
+            "from experiment '{experiment_name}' was transitioned to Staging.",
     )
 
 
@@ -69,9 +64,13 @@ if __name__ == '__main__':
     date_str = datetime.today().strftime("%Y-%m-%d")
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", help="Mlflow tracking uri.")
-    parser.add_argument("--experiment_name", default=f"heart-disease-hyperopt_{date_str}", help="mlflow tracking experiment name.")
-    parser.add_argument("--top_n", default=1, type=int, help="Number of top models that need to be evaluated to decide which one to promote")
+    parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", 
+                        help="Mlflow tracking uri.")
+    parser.add_argument("--experiment_name", default=f"heart-disease-hyperopt_{date_str}", 
+                        help="mlflow tracking experiment name.")
+    parser.add_argument("--top_n", default=1, type=int, 
+                        help="Number of top models that need to be evaluated " \
+                            "to decide which one to promote")
     args = parser.parse_args()
 
     parameters = {

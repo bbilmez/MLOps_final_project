@@ -1,10 +1,7 @@
 import pickle
 from typing import Union
-
 import mlflow
 import pandas as pd
-import os
-
 from disease_prediction.utils import prepare_features
 
 
@@ -16,19 +13,19 @@ def load_model(experiment_id, run_id):
     source = f"mlflow-artifacts:/{experiment_id}/{run_id}/artifacts/model"
     model = mlflow.pyfunc.load_model(source)
 
-    model_local_path = client.download_artifacts(run_id, "model/model.pkl", "./")
+    # model_local_path = client.download_artifacts(run_id, "model/model.pkl", "./")
     dv_local_path = client.download_artifacts(run_id, "dict_vectorizer/dv.pkl", "./")
 
     with open(dv_local_path, "rb") as f_in:
-        dv = pickle.load(f_in)
+        dict_vect = pickle.load(f_in)
 
-    return model, dv
+    return model, dict_vect
 
 
-def make_prediction(model, dv, input_data: Union[list[dict], pd.DataFrame]):
+def make_prediction(model, dict_vect, input_data: Union[list[dict], pd.DataFrame]):
     """Make prediction from features dict or DataFrame."""
 
-    X = prepare_features(input_data, dv)
-    preds = model.predict(X)
+    processed_data = prepare_features(input_data, dict_vect)
+    preds = model.predict(processed_data)
 
     return preds

@@ -23,6 +23,7 @@ psycopg = "*"
 psycopg-binary = "*"
 deepdiff = "*"
 requests = "*"
+optuna = "*"
 
 [dev-packages]
 pytest = "*"

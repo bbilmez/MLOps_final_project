@@ -16,10 +16,10 @@ def run_train(tracking_uri:str, experiment_name:str, data_path: str):
     mlflow.set_experiment(experiment_name)
 
     with mlflow.start_run():
-        X_train, y_train = load_pickle(os.path.join(data_path, "train.pkl"))
-        X_val, y_val = load_pickle(os.path.join(data_path, "val.pkl"))
+        x_train, y_train = load_pickle(os.path.join(data_path, "train.pkl"))
+        x_val, y_val = load_pickle(os.path.join(data_path, "val.pkl"))
         dv_path = os.path.join(data_path, "dv.pkl")
-        dv = load_pickle(dv_path)
+        dict_vect = load_pickle(dv_path)
 
         params = {
             'max_depth': 7,
@@ -31,18 +31,17 @@ def run_train(tracking_uri:str, experiment_name:str, data_path: str):
             'colsample_bytree': 0.5,
             'reg_alpha': 0.05,
             'reg_lambda': 1e-7,
-            'eval_metric': 'mlogloss',
             'tree_method': 'approx', 
             'eval_metric' : 'logloss',
         }
         xgb_model = xgb.XGBClassifier(**params)
-        xgb_model.fit(X_train, y_train)
-        y_pred = xgb_model.predict(X_val)
+        xgb_model.fit(x_train, y_train)
+        y_pred = xgb_model.predict(x_val)
 
         accuracy = accuracy_score(y_val, y_pred)
         
         with open(dv_path, 'wb') as f_out:
-            pickle.dump(dv, f_out)
+            pickle.dump(dict_vect, f_out)
         mlflow.log_artifact(dv_path, artifact_path="dict_vectorizer")
 
         mlflow.log_param("parameters", params)
@@ -53,9 +52,12 @@ def run_train(tracking_uri:str, experiment_name:str, data_path: str):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", help="Mlflow tracking uri.")
-    parser.add_argument("--experiment_name", default="heart-disease-experiment", help="mlflow tracking experiment name.")
-    parser.add_argument("--data_path", default="./Output", help="Location where the heart disease data was saved")
+    parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", 
+                        help="Mlflow tracking uri.")
+    parser.add_argument("--experiment_name", default="heart-disease-experiment", 
+                        help="mlflow tracking experiment name.")
+    parser.add_argument("--data_path", default="./Output", 
+                        help="Location where the heart disease data was saved")
     args = parser.parse_args()
 
     parameters = {

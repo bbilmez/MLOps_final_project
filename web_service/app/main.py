@@ -1,11 +1,7 @@
-import json
 import os
-from urllib.parse import parse_qs
-
 import mlflow
-import pandas as pd
 from dotenv import load_dotenv
-from flask import Flask, jsonify, render_template, request, session
+from flask import Flask, render_template, request
 
 from disease_prediction.predict import load_model, make_prediction
 

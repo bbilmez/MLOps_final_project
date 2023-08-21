@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from prefect.deployments import Deployment
-from prefect.orion.schemas.schedules import CronSchedule, IntervalSchedule
+from prefect.server.schemas.schedules import CronSchedule, IntervalSchedule
 from hyperoptimization_xgb import run_optimization
 from register_model import main
 

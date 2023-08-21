@@ -1,3 +1,11 @@
+"""
+This python file reads the train/test/valiaton data and 
+extracts predictor and target columns from these dataset.
+
+Then, use DictVectorizer() to convert a dataframes into 
+a numeric feature matrix suitable for machine learning algorithms.
+"""
+
 import os
 import pickle
 import argparse
@@ -7,26 +15,32 @@ from sklearn.feature_extraction import DictVectorizer
 
 @task(name="Read data")
 def read_dataframe(filename: str):
-    df = pd.read_csv(filename)
+    """
+    Read csv data.
+    """
+    dataframe = pd.read_csv(filename)
 
-    return df
+    return dataframe
 
 @task(name="Preprocess data")
-def preprocess(df: pd.DataFrame, dv: DictVectorizer, fit_dv: bool = False):
-    
-    dicts = df.to_dict(orient='records')
+def preprocess(dataframe: pd.DataFrame, dict_vect: DictVectorizer, fit_dv: bool = False):
+    """
+    Preprocess input data using dictionary vectorizer.
+    """
+    dicts = dataframe.to_dict(orient='records')
     if fit_dv:
-        X = dv.fit_transform(dicts)
+        converted_dicts = dict_vect.fit_transform(dicts)
     else:
-        X = dv.transform(dicts)
-    return X, dv
+        converted_dicts = dict_vect.transform(dicts)
+    return converted_dicts, dict_vect
 
 @task(name="pickle")
 def dump_pickle(obj, filename: str):
-
+    """
+    Pickle dictionary vectorizer.
+    """
     with open(filename, "wb") as f_out:
         return pickle.dump(obj, f_out)
-
 
 @flow(name="preprocess data")
 def main(raw_data_path: str, dest_path: str):
@@ -52,24 +66,25 @@ def main(raw_data_path: str, dest_path: str):
 
     # Fit the DictVectorizer and preprocess data
     logger.info("Vectorizing the dataframe")
-    dv = DictVectorizer()
-    X_train, dv = preprocess(df_train, dv, fit_dv=True)
-    X_test, _ = preprocess(df_test, dv, fit_dv=False)
+    dict_vect = DictVectorizer()
+    x_train, dict_vect = preprocess(df_train, dict_vect, fit_dv=True)
+    x_test, _ = preprocess(df_test, dict_vect, fit_dv=False)
 
     # Create dest_path folder unless it already exists
     os.makedirs(dest_path, exist_ok=True)
 
     # Save DictVectorizer and datasets
     logger.info("Pickling dictvectorizer and datasets")
-    dump_pickle(dv, os.path.join(dest_path, "dv.pkl"))
-    dump_pickle((X_train, y_train), os.path.join(dest_path, "train.pkl"))
-    dump_pickle((X_test, y_test), os.path.join(dest_path, "test.pkl"))
+    dump_pickle(dict_vect, os.path.join(dest_path, "dv.pkl"))
+    dump_pickle((x_train, y_train), os.path.join(dest_path, "train.pkl"))
+    dump_pickle((x_test, y_test), os.path.join(dest_path, "test.pkl"))
 
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--raw_data_path", help="Location where the raw heart disease data was saved")
+    parser.add_argument("--raw_data_path", 
+                        help="Location where the raw heart disease data was saved")
     parser.add_argument("--dest_path", help="Location where the resulting files will be saved")
     args = parser.parse_args()
 
