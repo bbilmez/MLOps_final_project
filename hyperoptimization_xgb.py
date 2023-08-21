@@ -18,11 +18,15 @@ def load_pickle(filename):
 
 
 @flow
-def run_optimization(tracking_uri:str, experiment_name:str, num_trials: int, data_path: str):
+def run_optimization(
+    tracking_uri:str, experiment_name:str, num_trials: int, data_path: str
+    ):
 
     ctx = get_run_context()
     mlflow.set_tracking_uri(tracking_uri)
-    mlflow.set_experiment(f"{experiment_name}_{ctx.flow_run.expected_start_time.strftime('%Y-%m-%d')}")
+    mlflow.set_experiment(
+        f"{experiment_name}_{ctx.flow_run.expected_start_time.strftime('%Y-%m-%d')}"
+        )
 
     with mlflow.start_run():
 
@@ -32,21 +36,20 @@ def run_optimization(tracking_uri:str, experiment_name:str, num_trials: int, dat
         dict_vect = load_pickle(dv_path)
 
         def objective(trial):
-            
             params = {
-            'max_depth': trial.suggest_int('max_depth', 1, 9),
-            'learning_rate': trial.suggest_float('learning_rate', 0.01, 1.0),
-            'n_estimators': trial.suggest_int('n_estimators', 50, 500),
-            'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
-            'gamma': trial.suggest_float('gamma', 1e-8, 1.0),
-            'subsample': trial.suggest_float('subsample', 0.01, 1.0),
-            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.01, 1.0),
-            'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0),
-            'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0),
-            'enable_categorical':True,
-            'tree_method': 'approx', # 'gpu_hist',
-            'missing' : np.nan,
-            'eval_metric' : 'logloss',
+                'max_depth': trial.suggest_int('max_depth', 1, 9),
+                'learning_rate': trial.suggest_float('learning_rate', 0.01, 1.0),
+                'n_estimators': trial.suggest_int('n_estimators', 50, 500),
+                'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+                'gamma': trial.suggest_float('gamma', 1e-8, 1.0),
+                'subsample': trial.suggest_float('subsample', 0.01, 1.0),
+                'colsample_bytree': trial.suggest_float('colsample_bytree', 0.01, 1.0),
+                'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 1.0),
+                'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 1.0),
+                'enable_categorical':True,
+                'tree_method': 'approx', # 'gpu_hist',
+                'missing' : np.nan,
+                'eval_metric' : 'logloss',
         }
 
             xgb_model = xgb.XGBClassifier(**params)
@@ -77,8 +80,7 @@ def run_optimization(tracking_uri:str, experiment_name:str, num_trials: int, dat
         mlflow.log_metric("recall", recall)
 
         mlflow.sklearn.log_model(model, "model")
-        
-        with open(dv_path, 'wb') as f_out:
+        with open(dv_path, "wb") as f_out:
             pickle.dump(dict_vect, f_out)
         mlflow.log_artifact(dv_path, artifact_path="dict_vectorizer")
 
@@ -104,19 +106,23 @@ def run_optimization(tracking_uri:str, experiment_name:str, num_trials: int, dat
 
         return None
 
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", 
-                        help="Mlflow tracking uri.")
-    parser.add_argument("--experiment_name", default="heart-disease-experiment", 
-                        help="mlflow tracking experiment name.")
-    parser.add_argument("--num_trials", default=10, 
-                        help="The number of parameter evaluations for the optimizer to explore")
-    parser.add_argument("--data_path", default="./Output", 
-                        help="Location where the heart disease data was saved")
+    parser.add_argument(
+        "--tracking_uri", default="http://127.0.0.1:5000", help="Mlflow tracking uri."
+        )
+    parser.add_argument(
+        "--experiment_name", default="heart-disease-experiment", 
+        help="mlflow tracking experiment name."
+        )
+    parser.add_argument(
+        "--num_trials", default=10, 
+        help="The number of parameter evaluations for the optimizer to explore"
+        )
+    parser.add_argument(
+        "--data_path", default="./Output", help="Location where the heart disease data was saved"
+        )
     args = parser.parse_args()
 
     parameters = {

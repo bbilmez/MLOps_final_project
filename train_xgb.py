@@ -10,7 +10,7 @@ def load_pickle(filename: str):
     with open(filename, "rb") as f_in:
         return pickle.load(f_in)
 
-def run_train(tracking_uri:str, experiment_name:str, data_path: str):
+def run_train(tracking_uri: str, experiment_name: str, data_path: str):
 
     mlflow.set_tracking_uri(tracking_uri)
     mlflow.set_experiment(experiment_name)
@@ -39,7 +39,6 @@ def run_train(tracking_uri:str, experiment_name:str, data_path: str):
         y_pred = xgb_model.predict(x_val)
 
         accuracy = accuracy_score(y_val, y_pred)
-        
         with open(dv_path, 'wb') as f_out:
             pickle.dump(dict_vect, f_out)
         mlflow.log_artifact(dv_path, artifact_path="dict_vectorizer")
@@ -48,16 +47,18 @@ def run_train(tracking_uri:str, experiment_name:str, data_path: str):
         mlflow.log_metric("accuracy", accuracy)
         mlflow.sklearn.log_model(xgb_model, "model")
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--tracking_uri", default="http://127.0.0.1:5000", 
-                        help="Mlflow tracking uri.")
-    parser.add_argument("--experiment_name", default="heart-disease-experiment", 
-                        help="mlflow tracking experiment name.")
-    parser.add_argument("--data_path", default="./Output", 
-                        help="Location where the heart disease data was saved")
+    parser.add_argument(
+        "--tracking_uri", default="http://127.0.0.1:5000", help="Mlflow tracking uri."
+        )
+    parser.add_argument(
+        "--experiment_name", default="heart-disease-experiment", help="mlflow tracking experiment name."
+        )
+    parser.add_argument(
+        "--data_path", default="./Output", help="Location where the heart disease data was saved"
+        )
     args = parser.parse_args()
 
     parameters = {

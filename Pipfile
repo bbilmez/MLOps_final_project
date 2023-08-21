@@ -28,6 +28,8 @@ optuna = "*"
 [dev-packages]
 pytest = "*"
 deepdiff = "*"
+black = "*"
+isort = "*"
 
 [requires]
 python_version = "3.9"

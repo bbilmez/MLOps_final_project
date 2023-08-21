@@ -9,6 +9,5 @@ disable = ["missing-function-docstring",
     "missing-timeout",
     "not-context-manager",
     "redefined-outer-name",
-    R0801
     ]
     
