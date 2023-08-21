@@ -23,11 +23,13 @@ def read_dataframe(filename: str):
     return dataframe
 
 @task(name="Preprocess data")
-def preprocess(dataframe: pd.DataFrame, dict_vect: DictVectorizer, fit_dv: bool = False):
+def preprocess(
+    dataframe: pd.DataFrame, dict_vect: DictVectorizer, fit_dv: bool = False
+    ):
     """
     Preprocess input data using dictionary vectorizer.
     """
-    dicts = dataframe.to_dict(orient='records')
+    dicts = dataframe.to_dict(orient="records")
     if fit_dv:
         converted_dicts = dict_vect.fit_transform(dicts)
     else:
@@ -50,14 +52,14 @@ def main(raw_data_path: str, dest_path: str):
     # Load parquet files
     logger.info("Reading the data as dataframe")
     df_train = read_dataframe(
-        os.path.join(raw_data_path, "train_data.csv")
+        os.path.join(raw_data_path, "train_data.csv"),
     )
     df_test = read_dataframe(
-        os.path.join(raw_data_path, "test_data.csv")
+        os.path.join(raw_data_path, "test_data.csv"),
     )
 
     # Extract the target
-    target = 'HeartDisease'
+    target = "HeartDisease"
     y_train = df_train[target].values
     y_test = df_test[target].values
 
@@ -80,12 +82,15 @@ def main(raw_data_path: str, dest_path: str):
     dump_pickle((x_test, y_test), os.path.join(dest_path, "test.pkl"))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--raw_data_path", 
-                        help="Location where the raw heart disease data was saved")
-    parser.add_argument("--dest_path", help="Location where the resulting files will be saved")
+    parser.add_argument(
+        "--raw_data_path", help="Location where the raw heart disease data was saved"
+        )
+    parser.add_argument(
+        "--dest_path", help="Location where the resulting files will be saved"
+        )
     args = parser.parse_args()
 
     parameters = {

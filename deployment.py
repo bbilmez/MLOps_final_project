@@ -13,7 +13,7 @@ mlflow_training_deployment = Deployment.build_from_flow(
     parameters={
         "tracking_uri": "http://127.0.0.1:5000",
         "experiment_name": "heart_disease_experiment",
-        "num_trials":10, 
+        "num_trials": 10, 
         "data_path": "./Output"
     },
     tags=["ml-training"],

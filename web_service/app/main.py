@@ -27,7 +27,6 @@ def predict_endpoint():
 def result_endpoint():
     """Predict the presence of heart disease heart_disease_xgb_model."""
     if request.method == "POST":
-
         user_data = request.form.to_dict()
         prediction_result = make_prediction(
             model, dv, user_data
