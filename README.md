@@ -1,6 +1,27 @@
 # Final project for MLOps zoomcamp by DataTalks 
 
+## Problem Statement  ##
+Cardiovascular diseases stand as a significant global contributor to mortality, claiming approximately 17.9 million lives annually and representing 31% of all global deaths. Among the outcomes of these diseases is heart failure, a frequent occurrence. Those with cardiovascular disease or at heightened risk (due to factors like hypertension, diabetes, hyperlipidemia, or existing conditions) necessitate timely identification and intervention. This is where a machine learning model can offer substantial assistance. By automating this aspect, we address yet another natural challenge, allowing us to redirect our attention toward the next issue through the application of AI techniques.
 
+Objective:
+The aim of this study is to create a classification model that predicts whether a patient is at risk of experiencing heart failure based on a variety of attributes. The task involves binary classification using both numerical and categorical features.
+
+Attributes in the Dataset:
+
+Age: The age of the patient in years.
+Sex: The sex of the patient (M: Male, F: Female).
+ChestPainType: The type of chest pain experienced (TA: Typical Angina, ATA: Atypical Angina, NAP: Non-Anginal Pain, ASY: Asymptomatic).
+RestingBP: Resting blood pressure in mm Hg.
+Cholesterol: Serum cholesterol level in mm/dl.
+FastingBS: Fasting blood sugar (1: if FastingBS > 120 mg/dl, 0: otherwise).
+RestingECG: Results of the resting electrocardiogram (Normal: Normal, ST: ST-T wave abnormality, LVH: Probable or definite left ventricular hypertrophy by Estes' criteria).
+MaxHR: Maximum heart rate achieved (numeric value between 60 and 202).
+ExerciseAngina: Presence of exercise-induced angina (Y: Yes, N: No).
+Oldpeak: ST depression measured in numeric units.
+ST_Slope: The slope of the peak exercise ST segment (Up: upsloping, Flat: flat, Down: downsloping).
+HeartDisease: Output class indicating the presence of heart disease (1: heart disease, 0: Normal).
+
+In this analysis, we aim to develop a model that can effectively classify patients' heart health based on these attributes, contributing to early detection and intervention for potential heart-related issues.
 
 ## Project Setup ##
 
