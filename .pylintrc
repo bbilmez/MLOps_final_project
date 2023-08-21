@@ -1,0 +1,13 @@
+[pylint.messages_control]
+
+disable=missing-function-docstring,
+    missing-final-newline,
+    missing-class-docstring,
+    missing-module-docstring,
+    no-value-for-parameter,
+    missing-timeout,
+    not-context-manager,
+    redefined-outer-name,
+    R0801
+    
+

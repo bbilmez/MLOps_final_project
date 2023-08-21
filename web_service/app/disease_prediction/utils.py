@@ -3,10 +3,10 @@ from typing import Union
 import pandas as pd
 
 
-def prepare_features(input_data: Union[list[dict], pd.DataFrame], dv):
+def prepare_features(input_data: Union[list[dict], pd.DataFrame], dict_vect):
 
-    X = dv.transform(input_data)
-    return X
+    processed_data = dict_vect.transform(input_data)
+    return processed_data
 
 
 if __name__ == "__main__":
@@ -24,5 +24,5 @@ if __name__ == "__main__":
         "ST_Slope": "Up",
     }
 
-    input_data = [user_data]
-    X = prepare_features(input_data)
+    user_data = [user_data]
+    X = prepare_features(user_data)
