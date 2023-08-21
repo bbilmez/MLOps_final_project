@@ -19,6 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Set working directory
+        run: echo "Setting working directory"
         working-directory: ./web_service
       - name: Build docker image
         run: |
